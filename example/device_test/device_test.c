@@ -23,9 +23,9 @@ static key_device_t key_dev;
 int main()
 {
     printf("按键设备测试程序\n");
-    printf("请使用键盘上的'k'键来模拟按钮\n");
-    printf("短按 'k': 触发短按事件\n");
-    printf("长按 'k': 触发长按事件\n");
+    printf("请使用键盘上的's,l'键来模拟按钮\n");
+    printf("短按 's': 触发短按事件\n");
+    printf("长按 'l': 触发长按事件\n");
     
     // 初始化任务系统
     tt_task_init();
