@@ -1,0 +1,8 @@
+build
+out
+Objects
+Listings
+*.uvguix.*
+.vs
+test-cppcheck-build-dir
+.vscode
