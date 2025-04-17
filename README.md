@@ -1,3 +1,4 @@
+[[English]](README_en.md)
 # TinyTask - 类似协程的轻量级任务调度系统、裸机框架
 
 TinyTask是一个为资源受限的单片机设计的类协程任务调度系统、裸机框架。它采用类似协程的设计理念，通过非抢占式的协作调度方式，在资源受限的环境中实现高效的任务切换。提供简洁的API接口和事件机制，使嵌入式系统开发更加简单高效。
@@ -123,8 +124,8 @@ mkdir build && cd build
 cmake ..
 make
 ```
-移植到单片机上课使用单片机的IDE。
-
+注：移植到单片机上需使用单片机的IDE。我仅在Linux下进行了开发和测试。
+详细的讲解，请参考知乎文章：https://zhuanlan.zhihu.com/p/1893061295797953982 ，或者微信公众号文章：https://mp.weixin.qq.com/s/Ut9G7X7YOTZWkntSjPxmOQ 
 ## 示例程序
 
 TinyTask提供了多个示例程序，帮助开发者快速理解和使用本系统：
@@ -153,10 +154,10 @@ TinyTask提供了多个示例程序，帮助开发者快速理解和使用本系
 
 [查看LCD模拟器示例](./example/lcd_simulator/README.md)
 
-上述所有的案例在PC上测试
+上述所有的案例在PC上测试（当前仅在Ubuntu 22.04上测试）
 
-@TODO 
-提供单片机的案例
+[查看STM32示例](./example/stm32/README.md)
+基于STM32平台上运行TinyTask的示例项目，演示按键和LED的组合。
 
 ## 许可证
 
