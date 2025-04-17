@@ -156,6 +156,7 @@ TinyTask提供了多个示例程序，帮助开发者快速理解和使用本系
 
 上述所有的案例在PC上测试（当前仅在Ubuntu 22.04上测试）
 
+### STM32事件驱动示例 (stm32)
 [查看STM32示例](./example/stm32/README.md)
 基于STM32平台上运行TinyTask的示例项目，演示按键和LED的组合。
 
