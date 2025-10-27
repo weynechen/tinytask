@@ -13,7 +13,7 @@ typedef struct {
   void *arg;
   int32_t state;
   uint32_t time;
-  uint32_t event;
+  tt_event_t event;
   tt_list_node_t node;
   tt_list_node_t event_node;
 } tt_task_t;

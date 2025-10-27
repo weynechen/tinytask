@@ -12,9 +12,15 @@ tt_task_t task1, task2;
 void task1_func(void *arg)
 {
   TT_TASK_START;
+  int x = 100;
   while (1) {
-    printf("task1 running1,%d\n",tt_task_get_system_tick_ms());
-    TT_TASK_DELAY_MS(555);
+    int i = 10;
+    printf("task1 running1,%d,%d\n",tt_task_get_system_tick_ms(),x++);
+    for(i=0;i<3;i++);
+    {
+      printf("task1 running2,%d\n",tt_task_get_system_tick_ms());
+      TT_TASK_DELAY_MS(555);
+    }
   }
   TT_TASK_END;
 }

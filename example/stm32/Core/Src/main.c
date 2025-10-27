@@ -28,6 +28,7 @@
 #include "tt_device.h"
 #include "printf_uart.h"
 #include "stm32_def.h"
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

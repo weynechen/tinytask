@@ -31,6 +31,7 @@ int __io_putchar(int ch)
 
 int _write(int file, char *ptr, int len)
 {
+    UNUSED(file);
     return printf_uart_write((uint8_t*)ptr, len);
 }
 #endif 

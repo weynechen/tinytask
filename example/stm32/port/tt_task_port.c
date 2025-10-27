@@ -1,5 +1,5 @@
 #include "tt_task_port.h"
-
+#include "stm32f1xx_hal.h"
 
 uint32_t tt_task_get_system_tick(void)
 {

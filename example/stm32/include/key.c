@@ -19,6 +19,7 @@ static int key_init(tt_device_t *dev)
 // 暂停按键设备
 static int key_suspend(tt_device_t *dev)
 {
+    UNUSED(dev);
     printf("key device suspend\n");
     return 0;
 }
@@ -26,6 +27,7 @@ static int key_suspend(tt_device_t *dev)
 // 恢复按键设备
 static int key_resume(tt_device_t *dev)
 {
+    UNUSED(dev);
     printf("key device resume\n");
     return 0;
 }
@@ -33,6 +35,7 @@ static int key_resume(tt_device_t *dev)
 // 反初始化按键设备
 static int key_deinit(tt_device_t *dev)
 {
+    UNUSED(dev);
     printf("key device deinit\n");
     return 0;
 }

@@ -89,6 +89,11 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
     USE_HAL_DRIVER                      # 使用HAL库
 )
 
+# Add compile options to suppress warnings
+target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE
+    -Wno-implicit-fallthrough           # Disable implicit fallthrough warning
+)
+
 # Add linked libraries
 target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
