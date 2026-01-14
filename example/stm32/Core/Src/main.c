@@ -51,13 +51,13 @@ UART_HandleTypeDef huart1;
 DMA_HandleTypeDef hdma_usart1_tx;
 
 /* USER CODE BEGIN PV */
-// 定义任务结构体
+// Define task structures
 static tt_task_t key_task;
 static tt_task_t short_press_task;
 static tt_task_t long_press_task;
 static tt_task_t idle_print_task;
 
-// 定义按键设备
+// Define key device
 static key_device_t key_dev;
 /* USER CODE END PV */
 
@@ -128,7 +128,7 @@ int main(void)
     i++;
   }
 
-  // 初始化串口打印
+  // Initialize UART print
   printf_uart_init();
   
   printf("test key and led\n");
@@ -137,18 +137,18 @@ int main(void)
   
 
 
-  // 初始化任务系统
+  // Initialize task system
   tt_task_init();
   
-  // 配置SysTick定时器作为任务系统时钟
+  // Configure SysTick timer as task system clock
   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000);
   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
   
-  // 注册按键设备
+  // Register key device
   register_key_device(&key_dev);
   
-  // 创建任务
+  // Create tasks
   tt_task_create(&idle_print_task, "led_blink_task", idle_print_task_func);
   tt_task_create(&key_task, "key_task", key_task_func);
   tt_task_create(&short_press_task, "short_press_task", short_press_task_func);
@@ -162,7 +162,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    // 任务调度
+    // Task scheduling
     tt_task_start_schedule();
   }
   /* USER CODE END 3 */

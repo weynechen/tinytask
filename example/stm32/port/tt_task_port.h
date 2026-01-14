@@ -3,8 +3,8 @@
 #include <stdint.h>
 
 /*
- * TinyTask移植层接口
- * 任何使用TinyTask的项目必须提供以下函数的实现：
+ * TinyTask port layer interface
+ * Any project using TinyTask must provide implementations for the following functions:
  * - tt_task_increment_system_tick
  * - tt_task_get_system_tick
  * - tt_task_get_system_tick_ms
@@ -13,7 +13,7 @@
 #define TT_TASK_USE_SOFTWARE_TIMER 1
 #define TT_TASK_USE_IDLE_TASK 1
 
-// 支持32个事件和64个事件，默认使用32个事件
+// Supports 32 and 64 events, defaults to 32 events
 #define TT_TASK_MAX_EVENT_NUM 32
 
 // Event definitions as macros to avoid enum range warnings
@@ -91,7 +91,7 @@ typedef uint64_t tt_event_t;
 #error "TT_TASK_MAX_EVENT_NUM is too large"
 #endif
 
-// 以下函数必须由移植层实现
+// The following functions must be implemented by the port layer
 void tt_task_increment_system_tick(void);
 uint32_t tt_task_get_system_tick(void);
 uint32_t tt_task_get_system_tick_ms(void);

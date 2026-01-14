@@ -12,12 +12,12 @@
 #include "linux_tick.h"
 #endif
 
-// 定义任务结构体
+// Define task structures
 static tt_task_t key_task;
 static tt_task_t short_press_task;
 static tt_task_t long_press_task;
 
-// 定义按键设备
+// Define key device
 static key_device_t key_dev;
 
 int main()
@@ -27,19 +27,19 @@ int main()
     printf("Short press 's': trigger short press event\n");
     printf("Long press 'l': trigger long press event\n");
     
-    // 初始化任务系统
+    // Initialize task system
     tt_task_init();
     init_systick();
     
-    // 注册按键设备
+    // Register key device
     register_key_device(&key_dev);
     
-    // 创建任务
+    // Create tasks
     tt_task_create(&key_task, "key_task", key_task_func);
     tt_task_create(&short_press_task, "short_press_task", short_press_task_func);
     tt_task_create(&long_press_task, "long_press_task", long_press_task_func);
     
-    // 开始任务调度
+    // Start task scheduling
     tt_task_start_schedule();
     
     return 0;

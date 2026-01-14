@@ -2,12 +2,12 @@
 #include "tt_task.h"
 #include <stdio.h>
 
-// 短按响应任务
+// Short press response task
 void short_press_task_func(void *arg)
 {
     TT_TASK_START;
     
-    // 注册关注TT_EVENT_1事件（短按）
+    // Register to listen for TT_EVENT_1 (short press)
     TT_EVENT_REGISTER(TT_EVENT_1);
     printf("Short press response task started\n");
     
@@ -18,19 +18,19 @@ void short_press_task_func(void *arg)
         // Handle short press event
         printf("====> Handling short press event <====\n");
         
-        // 清除事件标志
+        // Clear event flag
         TT_TASK_CLEAR_EVENT(TT_EVENT_1);
     }
     
     TT_TASK_END;
 }
 
-// 长按响应任务
+// Long press response task
 void long_press_task_func(void *arg)
 {
     TT_TASK_START;
     
-    // 注册关注TT_EVENT_2事件（长按）
+    // Register to listen for TT_EVENT_2 (long press)
     TT_EVENT_REGISTER(TT_EVENT_2);
     printf("Long press response task started\n");
     
@@ -41,7 +41,7 @@ void long_press_task_func(void *arg)
         // Handle long press event
         printf("====> Handling long press event <====\n");
         
-        // 清除事件标志
+        // Clear event flag
         TT_TASK_CLEAR_EVENT(TT_EVENT_2);
     }
     

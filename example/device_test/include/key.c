@@ -14,7 +14,7 @@
 
 static key_device_t *key_dev = NULL;
 
-// 初始化按键设备
+// Initialize key device
 static int key_init(tt_device_t *dev)
 {
     key_device_t *key = (key_device_t *)dev;
@@ -45,7 +45,7 @@ static int key_deinit(tt_device_t *dev)
     return 0;
 }
 
-// 注册按键设备
+// Register key device
 void register_key_device(key_device_t *key)
 {
     if (key == NULL) {
@@ -66,7 +66,7 @@ void register_key_device(key_device_t *key)
 }
 
 #ifdef PLATFORM_LINUX
-// Linux下的非阻塞键盘输入函数
+// Non-blocking keyboard input function for Linux
 static int kbhit(void)
 {
     struct termios oldt, newt;
@@ -112,7 +112,7 @@ static int getch(void)
 }
 #endif
 
-// 按键扫描函数
+// Key scan function
 uint8_t key_scan(void)
 {
     uint8_t key_status = KEY_NO_PRESS;
@@ -131,17 +131,17 @@ uint8_t key_scan(void)
     }
 #endif
     
-    // 'k'键作为按钮输入，'s'键作为短按，'l'键作为长按
+    // 'k' key as button input, 's' key as short press, 'l' key as long press
     if (key_pressed) {
         if (key_val == 's') {
-            // 直接映射's'键为短按
+            // Directly map 's' key to short press
             key_dev->last_state = KEY_SHORT_PRESS;
         } else if (key_val == 'l') {
-            // 直接映射'l'键为长按
+            // Directly map 'l' key to long press
             key_dev->last_state = KEY_LONG_PRESS;
         }
     } else if (key_dev != NULL && key_dev->last_state != KEY_NO_PRESS) {
-        // 按键释放，返回最后的状态
+        // Key released, return last state
         key_status = key_dev->last_state;
         key_dev->last_state = KEY_NO_PRESS;
     }

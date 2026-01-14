@@ -6,7 +6,7 @@
 
 static key_device_t *key_dev = NULL;
 
-// 初始化按键设备
+// Initialize key device
 static int key_init(tt_device_t *dev)
 {
     key_device_t *key = (key_device_t *)dev;
@@ -16,7 +16,7 @@ static int key_init(tt_device_t *dev)
     return 0;
 }
 
-// 暂停按键设备
+// Suspend key device
 static int key_suspend(tt_device_t *dev)
 {
     UNUSED(dev);
@@ -24,7 +24,7 @@ static int key_suspend(tt_device_t *dev)
     return 0;
 }
 
-// 恢复按键设备
+// Resume key device
 static int key_resume(tt_device_t *dev)
 {
     UNUSED(dev);
@@ -32,7 +32,7 @@ static int key_resume(tt_device_t *dev)
     return 0;
 }
 
-// 反初始化按键设备
+// Deinitialize key device
 static int key_deinit(tt_device_t *dev)
 {
     UNUSED(dev);
@@ -40,7 +40,7 @@ static int key_deinit(tt_device_t *dev)
     return 0;
 }
 
-// 注册按键设备
+// Register key device
 void register_key_device(key_device_t *key)
 {
     if (key == NULL) {
@@ -60,29 +60,29 @@ void register_key_device(key_device_t *key)
     key->base.init(&key->base);
 }
 
-// 按键扫描函数
+// Key scan function
 uint8_t key_scan(void)
 {
     uint8_t key_status = KEY_NO_PRESS;
-    static uint8_t key_last_state = 1; // 上次按键状态，默认为释放状态
+    static uint8_t key_last_state = 1; // Last key state, default to released state
     uint8_t key_current_state;
     uint32_t current_time;
     
-    // 读取当前按键状态 (STM32的按键通常是低电平有效)
+    // Read current key state (STM32 keys are typically active low)
     key_current_state = HAL_GPIO_ReadPin(KEY_GPIO_Port, KEY_Pin);
     current_time = tt_task_get_system_tick_ms();
     
-    // 按键状态变化
+    // Key state change
     if (key_current_state != key_last_state) {
-        if (key_current_state == 0) { // 按键按下
-            // 记录按下的时间
+        if (key_current_state == 0) { // Key pressed
+            // Record press time
             if (key_dev != NULL) {
                 key_dev->press_time = current_time;
                 key_dev->last_state = KEY_NO_PRESS;
             }
-        } else { // 按键释放
+        } else { // Key released
             if (key_dev != NULL && key_dev->press_time > 0) {
-                // 判断按键按下的时间，区分短按和长按
+                // Judge press time duration, distinguish short and long press
                 if (current_time - key_dev->press_time >= KEY_LONG_PRESS_THRESHOLD) {
                     key_status = KEY_LONG_PRESS;
                 } else {
@@ -93,7 +93,7 @@ uint8_t key_scan(void)
         }
         key_last_state = key_current_state;
     } else if (key_current_state == 0 && key_dev != NULL && key_dev->press_time > 0) {
-        // 按键持续按下，检测是否达到长按阈值
+        // Key continuously pressed, check if long press threshold reached
         if (current_time - key_dev->press_time >= KEY_LONG_PRESS_THRESHOLD && 
             key_dev->last_state != KEY_LONG_PRESS) {
             key_status = KEY_LONG_PRESS;

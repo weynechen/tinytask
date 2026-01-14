@@ -11,17 +11,17 @@ DWORD WINAPI ThreadFunction(LPVOID lpParam)
     LARGE_INTEGER start, end;
     double elapsedTime;
 
-    // 获取高精度计时器的频率
+    // Get high-precision timer frequency
     QueryPerformanceFrequency(&frequency);
 
     while (1) {
-        // 获取开始时间
+        // Get start time
         QueryPerformanceCounter(&start);
 
-        // 执行任务
+        // Execute task
         tt_task_increment_system_tick();
 
-        // 等待直到1ms过去
+        // Wait until 1ms passes
         do {
             QueryPerformanceCounter(&end);
             elapsedTime = (double)(end.QuadPart - start.QuadPart) * 1000.0 / frequency.QuadPart;
@@ -32,13 +32,13 @@ DWORD WINAPI ThreadFunction(LPVOID lpParam)
 
 int init_systick()
 {
-    // 创建线程
-    hThread = CreateThread(NULL,           // 默认安全属性
-                         0,                // 默认栈大小
-                         ThreadFunction,   // 线程函数
-                         NULL,             // 线程函数参数
-                         0,                // 默认的创建标志
-                         NULL              // 线程标识符
+    // Create thread
+    hThread = CreateThread(NULL,           // Default security attributes
+                         0,                // Default stack size
+                         ThreadFunction,   // Thread function
+                         NULL,             // Thread function parameter
+                         0,                // Default creation flags
+                         NULL              // Thread identifier
     );
 
     if (hThread == NULL) {
@@ -53,6 +53,6 @@ int init_systick()
 
 void deinit_systick()
 {
-    // 关闭线程句柄
+    // Close thread handle
     CloseHandle(hThread);
 } 

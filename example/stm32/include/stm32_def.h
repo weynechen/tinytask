@@ -3,12 +3,11 @@
 
 #include "stm32f1xx_hal.h"
 
-// 定义SysTick_IRQn
+// Define SysTick_IRQn
 #ifndef SysTick_IRQn
 #define SysTick_IRQn SysTick_IRQn
 #endif
 
-// 定义GPIO相关宏
 #ifndef GPIOC
 #define GPIOC GPIOC
 #endif
@@ -17,7 +16,7 @@
 #define GPIOA GPIOA
 #endif
 
-// 定义RCC相关宏
+// Define RCC-related macros
 #ifndef RCC_CR_HSION
 #define RCC_CR_HSION RCC_CR_HSION
 #endif
@@ -34,7 +33,7 @@
 #define RCC_CFGR_PPRE1_DIV1 RCC_CFGR_PPRE1_DIV1
 #endif
 
-// 定义USART相关宏
+// Define USART-related macros
 #ifndef USART1
 #define USART1 USART1
 #endif
@@ -43,17 +42,16 @@
 #define USART_CR1_TE USART_CR1_TE
 #endif
 
-// 定义DMA相关宏
+// Define DMA-related macros
 #ifndef DMA1_Channel4_IRQn
 #define DMA1_Channel4_IRQn DMA1_Channel4_IRQn
 #endif
 
-// 定义GPIO相关宏
 #ifndef GPIO_CRL_MODE0_1
 #define GPIO_CRL_MODE0_1 GPIO_CRL_MODE0_1
 #endif
 
-// 定义IO寄存器类型
+// Define IO register type
 #ifndef __IO
 #define __IO volatile
 #endif

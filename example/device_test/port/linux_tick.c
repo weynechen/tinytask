@@ -7,7 +7,7 @@
 static pthread_t tick_thread;
 static int running = 1;
 
-// 线程函数
+// Thread function
 void* thread_function(void* arg)
 {
     struct timespec start, end;
@@ -15,13 +15,13 @@ void* thread_function(void* arg)
     const long target_ns = 1000000; // 1ms = 1000000ns
 
     while (running) {
-        // 获取开始时间
+        // Get start time
         clock_gettime(CLOCK_MONOTONIC, &start);
 
-        // 执行任务
+        // Execute task
         tt_task_increment_system_tick();
 
-        // 等待直到1ms过去
+        // Wait until 1ms passes
         do {
             clock_gettime(CLOCK_MONOTONIC, &end);
             elapsed_ns = (end.tv_sec - start.tv_sec) * 1000000000 + (end.tv_nsec - start.tv_nsec);
@@ -32,7 +32,7 @@ void* thread_function(void* arg)
 
 int init_systick()
 {
-    // 创建线程
+    // Create thread
     int ret = pthread_create(&tick_thread, NULL, thread_function, NULL);
     
     if (ret != 0) {
@@ -47,7 +47,7 @@ int init_systick()
 
 void deinit_systick()
 {
-    // 停止线程
+    // Stop thread
     running = 0;
     pthread_join(tick_thread, NULL);
 } 

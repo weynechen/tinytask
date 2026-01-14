@@ -3,32 +3,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// SDL相关变量
+// SDL-related variables
 static SDL_Window* window = NULL;
 static SDL_Renderer* renderer = NULL;
 static SDL_Texture* texture = NULL;
 static uint32_t* pixel_buffer = NULL;
 
-// 像素颜色定义 - 扩展为支持Windows样式
-#define PIXEL_OFF_COLOR  0xFF000000 // 黑色（背景）
-#define PIXEL_ON_COLOR   0xFFFFFFFF // 白色（前景）
-#define PIXEL_GRAY_COLOR 0xFFD0D0D0 // 灰色（按钮背景）
-#define PIXEL_BLUE_COLOR 0xFF4B9EFF // 淡蓝色（选中边框）
+// Pixel color definitions - extended to support Windows-style
+#define PIXEL_OFF_COLOR  0xFF000000 // Black (background)
+#define PIXEL_ON_COLOR   0xFFFFFFFF // White (foreground)
+#define PIXEL_GRAY_COLOR 0xFFD0D0D0 // Gray (button background)
+#define PIXEL_BLUE_COLOR 0xFF4B9EFF // Light blue (selected border)
 
-// 当前按键状态
+// Current key state
 static lcd_key_state_t current_key_state = KEY_NONE;
 
-// 像素大小（放大倍数，使显示更清晰）
+// Pixel size (zoom factor, for clearer display)
 #define PIXEL_SCALE 4
 
 int lcd_init(void) {
-    // 初始化SDL
+    // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         fprintf(stderr, "SDL initialization failed: %s\n", SDL_GetError());
         return -1;
     }
 
-    // 创建窗口
+    // Create window
     window = SDL_CreateWindow(
         "LCD Simulator",
         SDL_WINDOWPOS_CENTERED,
@@ -44,7 +44,7 @@ int lcd_init(void) {
         return -1;
     }
 
-    // 创建渲染器
+    // Create renderer
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (!renderer) {
         fprintf(stderr, "Renderer creation failed: %s\n", SDL_GetError());
@@ -53,7 +53,7 @@ int lcd_init(void) {
         return -1;
     }
 
-    // 创建纹理
+    // Create texture
     texture = SDL_CreateTexture(
         renderer,
         SDL_PIXELFORMAT_ARGB8888,
@@ -70,7 +70,7 @@ int lcd_init(void) {
         return -1;
     }
 
-    // 创建像素缓冲区
+    // Create pixel buffer
     pixel_buffer = (uint32_t*)malloc(LCD_WIDTH * LCD_HEIGHT * sizeof(uint32_t));
     if (!pixel_buffer) {
         fprintf(stderr, "Memory allocation failed\n");
@@ -81,7 +81,7 @@ int lcd_init(void) {
         return -1;
     }
 
-    // 清空像素缓冲区（初始化为黑色）
+    // Clear pixel buffer (initialize to black)
     memset(pixel_buffer, 0, LCD_WIDTH * LCD_HEIGHT * sizeof(uint32_t));
 
     return 0;
@@ -94,19 +94,19 @@ void lcd_clear(void) {
 }
 
 /**
- * @brief 在LCD上绘制一个像素点
+ * @brief Draw a single pixel on the LCD
  * 
- * @param x X坐标
- * @param y Y坐标
- * @param color 像素颜色 (32位ARGB格式)
+ * @param x X coordinate
+ * @param y Y coordinate
+ * @param color Pixel color (32-bit ARGB format)
  */
 void lcd_draw_pixel(uint16_t x, uint16_t y, uint32_t color) {
-    // 检查坐标是否在有效范围内
+    // Check if coordinates are within valid range
     if (x >= LCD_WIDTH || y >= LCD_HEIGHT || !pixel_buffer) {
         return;
     }
 
-    // 直接设置像素颜色
+    // Directly set pixel color
     pixel_buffer[y * LCD_WIDTH + x] = color;
 }
 
@@ -115,33 +115,33 @@ void lcd_update(void) {
         return;
     }
 
-    // 更新纹理数据
+    // Update texture data
     SDL_UpdateTexture(texture, NULL, pixel_buffer, LCD_WIDTH * sizeof(uint32_t));
 
-    // 清空渲染器
+    // Clear renderer
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    // 渲染纹理
+    // Render texture
     SDL_RenderCopy(renderer, texture, NULL, NULL);
     
-    // 显示渲染内容
+    // Display rendered content
     SDL_RenderPresent(renderer);
 }
 
 int lcd_get_event(void) {
     SDL_Event event;
     
-    // 重置当前按键状态
+    // Reset current key state
     current_key_state = KEY_NONE;
     
-    // 处理所有待处理的事件
+    // Process all pending events
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
-            return 1; // 窗口关闭事件
+            return 1; // Window close event
         }
         
-        // 检测键盘事件
+        // Detect keyboard events
         if (event.type == SDL_KEYDOWN) {
             switch (event.key.keysym.sym) {
                 case SDLK_u:
@@ -160,16 +160,16 @@ int lcd_get_event(void) {
         }
     }
     
-    return 0; // 没有关闭事件
+    return 0; // No close event
 }
 
-// 获取当前按键状态
+// Get current key state
 lcd_key_state_t lcd_get_key_state(void) {
     return current_key_state;
 }
 
 void lcd_deinit(void) {
-    // 释放资源
+    // Release resources
     if (pixel_buffer) {
         free(pixel_buffer);
         pixel_buffer = NULL;

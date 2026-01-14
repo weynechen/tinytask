@@ -19,14 +19,14 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-// 全局变量，用于控制程序运行
+// Global variables for controlling program execution
 volatile bool g_app_running = true;
 
-// 按钮事件定义
-#define BUTTON1_EVENT TT_EVENT_1  // 按钮1被按下事件
-#define BUTTON2_EVENT TT_EVENT_2  // 按钮2被按下事件
+// Button event definitions
+#define BUTTON1_EVENT TT_EVENT_1  // Button 1 pressed event
+#define BUTTON2_EVENT TT_EVENT_2  // Button 2 pressed event
 
-// 按钮结构体定义
+// Button structure definition
 typedef struct {
     uint16_t x;
     uint16_t y;
@@ -37,14 +37,14 @@ typedef struct {
     int animation_frame;
 } button_t;
 
-// 按钮动画帧数
+// Button animation frame count
 #define MAX_ANIMATION_FRAMES 10
 
-// 全局按钮
+// Global buttons
 button_t buttons[2];
 int current_selected_button = 0;
 
-// 绘制矩形 - 完全填充
+// Draw rectangle - completely filled
 void draw_rect_filled(int x, int y, int width, int height, uint32_t color) {
     // 确保坐标在有效范围内
     if (x < 0) { width += x; x = 0; }
@@ -60,7 +60,7 @@ void draw_rect_filled(int x, int y, int width, int height, uint32_t color) {
     }
 }
 
-// 绘制边框 - 只有轮廓
+// Draw border - outline only
 void draw_rect_outline(int x, int y, int width, int height, uint32_t color) {
     // 确保坐标在有效范围内
     if (x < 0) { width += x; x = 0; }
@@ -69,14 +69,14 @@ void draw_rect_outline(int x, int y, int width, int height, uint32_t color) {
     if (y + height > LCD_HEIGHT) height = LCD_HEIGHT - y;
     if (width <= 0 || height <= 0) return;
     
-    // 绘制水平线
+    // Draw horizontal lines
     for (int i = 0; i < width; i++) {
         lcd_draw_pixel(x + i, y, color);
         if (y + height - 1 < LCD_HEIGHT)
             lcd_draw_pixel(x + i, y + height - 1, color);
     }
     
-    // 绘制垂直线
+    // Draw vertical lines
     for (int j = 1; j < height - 1; j++) {
         lcd_draw_pixel(x, y + j, color);
         if (x + width - 1 < LCD_WIDTH)
@@ -84,47 +84,47 @@ void draw_rect_outline(int x, int y, int width, int height, uint32_t color) {
     }
 }
 
-// 简化的Windows风格按钮
+// Simplified Windows-style button
 void draw_button(button_t *button) {
-    // 绘制按钮背景 - 使用灰色背景
+    // Draw button background - use gray background
     draw_rect_filled(button->x, button->y, button->width, button->height, COLOR_GRAY);
     
-    // 绘制黑色边框
+    // Draw black border
     draw_rect_outline(button->x, button->y, button->width, button->height, COLOR_BLACK);
     
-    // 如果按钮被选中，绘制蓝色边框
+    // If button is selected, draw blue border
     if (button->selected) {
-        // 绘制选中边框 - 淡蓝色
-        int offset = 2;  // 边框偏移量
+        // Draw selected border - light blue
+            int offset = 2;  // Border offset
         draw_rect_outline(button->x - offset, button->y - offset, 
                          button->width + 2*offset, button->height + 2*offset, 
                          COLOR_LIGHT_BLUE);
         
-        // 增加动画效果 - 第二个蓝色边框
+            // Add animation effect - second blue border
         int anim_offset = button->animation_frame % MAX_ANIMATION_FRAMES;
         if (anim_offset < MAX_ANIMATION_FRAMES / 2) {
-            offset = 3;  // 第二层边框偏移量
+                offset = 3;  // Second layer border offset
             draw_rect_outline(button->x - offset, button->y - offset, 
                              button->width + 2*offset, button->height + 2*offset, 
                              COLOR_LIGHT_BLUE);
         }
     }
     
-    // 绘制按钮文本 - 黑色文字
+    // Draw button text - black text
     int text_len = strlen(button->text);
     int text_width = text_len * FONT_WIDTH;
     int text_x = button->x + (button->width - text_width) / 2;
     int text_y = button->y + (button->height - FONT_HEIGHT) / 2;
     
-    // 确保文字在按钮内
+    // Ensure text is within button
     if (text_x < button->x) text_x = button->x + 2;
     
     draw_string(text_x, text_y, button->text, COLOR_GREEN);
 }
 
-// 初始化按钮
+// Initialize buttons
 void init_buttons() {
-    // 初始化按钮1
+    // Initialize button 1
     buttons[0].x = 20;
     buttons[0].y = 10;
     buttons[0].width = 90;
@@ -133,7 +133,7 @@ void init_buttons() {
     buttons[0].selected = true;
     buttons[0].animation_frame = 0;
     
-    // 初始化按钮2
+    // Initialize button 2
     buttons[1].x = 20;
     buttons[1].y = 40;
     buttons[1].width = 90;
@@ -142,17 +142,17 @@ void init_buttons() {
     buttons[1].selected = false;
     buttons[1].animation_frame = 0;
     
-    // 默认选中第一个按钮
+    // Default select first button
     current_selected_button = 0;
 }
 
-// 处理按钮选择
+// Handle button selection
 void handle_button_selection(lcd_key_state_t key) {
     if (key == KEY_UP_PRESSED) {
-        // 取消当前按钮选中状态
+        // Deselect current button
         buttons[current_selected_button].selected = false;
         
-        // 移动到上一个按钮
+        // Move to next button
         current_selected_button = (current_selected_button == 0) ? 1 : 0;
         
         // Select new button
@@ -161,10 +161,10 @@ void handle_button_selection(lcd_key_state_t key) {
         printf("Selected button %d\n", current_selected_button + 1);
     }
     else if (key == KEY_DOWN_PRESSED) {
-        // 取消当前按钮选中状态
+        // Deselect current button
         buttons[current_selected_button].selected = false;
         
-        // 移动到下一个按钮
+        // Move to previous button
         current_selected_button = (current_selected_button == 0) ? 1 : 0;
         
         // Select new button
@@ -173,7 +173,7 @@ void handle_button_selection(lcd_key_state_t key) {
         printf("Selected button %d\n", current_selected_button + 1);
     }
     else if (key == KEY_ENTER_PRESSED) {
-        // 按下回车键，触发按钮事件
+        // Press enter key, trigger button event
         if (current_selected_button == 0) {
             tt_event_notify(BUTTON1_EVENT);
         } else {
@@ -182,82 +182,82 @@ void handle_button_selection(lcd_key_state_t key) {
     }
 }
 
-// 显示任务
+// Display task
 void display_task(void* arg) {
     TT_TASK_START;
     
     while (g_app_running) {
-        // 清屏 - 设为全黑
+        // Clear screen - set to all black
         lcd_clear();
         
-        // 更新按钮动画帧
+        // Update button animation frames
         for (int i = 0; i < 2; i++) {
             if (buttons[i].selected) {
                 buttons[i].animation_frame = (buttons[i].animation_frame + 1) % MAX_ANIMATION_FRAMES;
             }
         }
         
-        // 绘制两个按钮
+        // Draw two buttons
         draw_button(&buttons[0]);
         draw_button(&buttons[1]);
         
-        // 更新显示
+        // Update display
         lcd_update();
         
-        // 延迟50ms
+        // Delay 50ms
         TT_TASK_DELAY_MS(50);
     }
     
     TT_TASK_END;
 }
 
-// 按键处理任务
+// Key handling task
 void key_task(void* arg) {
     TT_TASK_START;
     
     printf("Key task started, press 'u' to select up, 'd' to select down, Enter to confirm\n");
     
     while (g_app_running) {
-        // 获取按键状态
+        // Get key state
         lcd_key_state_t key_state = lcd_get_key_state();
         
-        // 处理按键事件
+        // Handle key events
         if (key_state != KEY_NONE) {
             handle_button_selection(key_state);
         }
         
-        // 检查退出事件
+        // Check exit event
         if (lcd_get_event() != 0) {
             g_app_running = false;
             
-            // 发出结束任务的信号
+            // Signal end of task
             printf("Exit event detected, stopping program...\n");
             
-            // 退出任务调度循环
+            // Exit task scheduling loop
             tt_task_stop_schedule();
             break;
         }
         
-        // 短暂休眠
+        // Brief sleep
         TT_TASK_DELAY_MS(10);
     }
     
     TT_TASK_END;
 }
 
-// 按钮1事件处理任务
+// Button 1 event handling task
 void button1_event_task(void* arg) {
     TT_TASK_START;
     
-    // 注册关注BUTTON1_EVENT事件
+    // Register to listen for BUTTON1_EVENT
     TT_EVENT_REGISTER(BUTTON1_EVENT);
     printf("Button1 event task started\n");
     
     while (g_app_running) {
-        // 等待按钮1事件
+        // Wait for button 1 event
         TT_TASK_WAIT_EVENT(BUTTON1_EVENT, TT_TASK_WAIT_FOREVER);
         
-        // 处理按钮1事件
+        // Handle button 1 event
         printf("====> Button1 pressed! Handling button1 event <====\n");
         
         // 清除事件标志
@@ -267,22 +267,22 @@ void button1_event_task(void* arg) {
     TT_TASK_END;
 }
 
-// 按钮2事件处理任务
+// Button 2 event handling task
 void button2_event_task(void* arg) {
     TT_TASK_START;
     
-    // 注册关注BUTTON2_EVENT事件
+    // Register to listen for BUTTON2_EVENT
     TT_EVENT_REGISTER(BUTTON2_EVENT);
     printf("Button2 event task started\n");
     
     while (g_app_running) {
-        // 等待按钮2事件
+        // Wait for button 2 event
         TT_TASK_WAIT_EVENT(BUTTON2_EVENT, TT_TASK_WAIT_FOREVER);
         
-        // 处理按钮2事件
+        // Handle button 2 event
         printf("====> Button2 pressed! Handling button2 event <====\n");
         
-        // 清除事件标志
+        // Clear event flag
         TT_TASK_CLEAR_EVENT(BUTTON2_EVENT);
     }
     
@@ -290,7 +290,7 @@ void button2_event_task(void* arg) {
 }
 
 int main() {
-    // 初始化LCD
+    // Initialize LCD
     if (lcd_init() != 0) {
         fprintf(stderr, "LCD initialization failed\n");
         return -1;
@@ -298,40 +298,40 @@ int main() {
     
     printf("LCD simulator started, screen size: %dx%d\n", LCD_WIDTH, LCD_HEIGHT);
     
-    // 初始化TinyTask
+    // Initialize TinyTask
     tt_task_init();
     
-    // 初始化系统时钟
+    // Initialize system clock
     init_systick();
     
-    // 初始化按钮
+    // Initialize buttons
     init_buttons();
     
-    // 定义任务结构体
+    // Define task structures
     tt_task_t display_task_struct;
     tt_task_t key_task_struct;
     tt_task_t button1_event_task_struct;
     tt_task_t button2_event_task_struct;
     
-    // 创建显示任务
+    // Create display task
     display_task_struct.arg = NULL;
     tt_task_create(&display_task_struct, "display_task", display_task);
     
-    // 创建按键任务
+    // Create key task
     key_task_struct.arg = NULL;
     tt_task_create(&key_task_struct, "key_task", key_task);
     
-    // 创建按钮事件处理任务
+    // Create button event handling task
     button1_event_task_struct.arg = NULL;
     tt_task_create(&button1_event_task_struct, "button1_event_task", button1_event_task);
     
     button2_event_task_struct.arg = NULL;
     tt_task_create(&button2_event_task_struct, "button2_event_task", button2_event_task);
     
-    // 启动任务调度（这里会进入任务调度循环）
+    // Start task scheduling (this will enter the task scheduling loop)
     tt_task_start_schedule();
     
-    // 调度器退出后执行清理工作
+    // Cleanup after scheduler exits
     deinit_systick();
     lcd_deinit();
     

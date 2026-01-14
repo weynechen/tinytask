@@ -6,22 +6,22 @@
 
 extern UART_HandleTypeDef huart1;
 
-// 初始化UART打印接口
+// Initialize UART print interface
 void printf_uart_init(void)
 {
-    // 已经在main.c中初始化了UART
+    // UART already initialized in main.c
 }
 
-// 通过DMA发送数据
+// Send data via DMA
 int printf_uart_write(uint8_t *data, uint16_t len)
 {
     HAL_UART_Transmit(&huart1, data, len, 0xFFFF);
     return len;
 }
 
-// 重定向printf函数到UART
+// Redirect printf function to UART
 #ifdef __GNUC__
-// 实现fputc
+// Implement fputc
 int __io_putchar(int ch)
 {
     uint8_t c = ch;

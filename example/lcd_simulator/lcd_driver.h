@@ -4,32 +4,32 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-// LCD屏幕尺寸配置
+// LCD screen size configuration
 #define LCD_WIDTH  128
 #define LCD_HEIGHT 64
 
-// 颜色定义 (32位RGBA格式)
-#define COLOR_BLACK     0xFF000000  // 黑色
-#define COLOR_WHITE     0xFFFFFFFF  // 白色
-#define COLOR_RED       0xFFFF0000  // 红色
-#define COLOR_GREEN     0xFF00FF00  // 绿色
-#define COLOR_BLUE      0xFF0000FF  // 蓝色
-#define COLOR_YELLOW    0xFFFFFF00  // 黄色
-#define COLOR_GRAY      0xFFAAAAAA  // 灰色
-#define COLOR_LIGHT_BLUE 0xFF8888FF // 淡蓝色
+// Color definitions (32-bit RGBA format)
+#define COLOR_BLACK     0xFF000000  // Black
+#define COLOR_WHITE     0xFFFFFFFF  // White
+#define COLOR_RED       0xFFFF0000  // Red
+#define COLOR_GREEN     0xFF00FF00  // Green
+#define COLOR_BLUE      0xFF0000FF  // Blue
+#define COLOR_YELLOW    0xFFFFFF00  // Yellow
+#define COLOR_GRAY      0xFFAAAAAA  // Gray
+#define COLOR_LIGHT_BLUE 0xFF8888FF // Light blue
 
-// 原始像素状态定义 (为了兼容性保留，但推荐使用上面的颜色常量)
+// Original pixel state definitions (kept for compatibility, color constants above are recommended)
 typedef enum {
-    LCD_PIXEL_OFF = COLOR_BLACK,  // 黑色（关闭）
-    LCD_PIXEL_ON = COLOR_WHITE,   // 白色（开启）
-    LCD_PIXEL_RED = COLOR_RED,    // 红色
-    LCD_PIXEL_GREEN = COLOR_GREEN, // 绿色
-    LCD_PIXEL_BLUE = COLOR_BLUE,  // 蓝色
-    LCD_PIXEL_YELLOW = COLOR_YELLOW, // 黄色
-    LCD_PIXEL_GRAY = COLOR_GRAY,  // 灰色
+    LCD_PIXEL_OFF = COLOR_BLACK,  // Black (off)
+    LCD_PIXEL_ON = COLOR_WHITE,   // White (on)
+    LCD_PIXEL_RED = COLOR_RED,    // Red
+    LCD_PIXEL_GREEN = COLOR_GREEN, // Green
+    LCD_PIXEL_BLUE = COLOR_BLUE,  // Blue
+    LCD_PIXEL_YELLOW = COLOR_YELLOW, // Yellow
+    LCD_PIXEL_GRAY = COLOR_GRAY,  // Gray
 } lcd_pixel_state_t;
 
-// 按键状态定义
+// Key state definitions
 typedef enum {
     KEY_NONE = 0,
     KEY_UP_PRESSED,
@@ -37,28 +37,28 @@ typedef enum {
     KEY_ENTER_PRESSED
 } lcd_key_state_t;
 
-// LCD初始化
+// LCD initialization
 int lcd_init(void);
 
-// LCD清屏
+// LCD clear screen
 void lcd_clear(void);
 
-// 绘制单个像素 - 使用32位颜色值
+// Draw single pixel - use 32-bit color value
 void lcd_draw_pixel(uint16_t x, uint16_t y, uint32_t color);
 
-// 刷新显示 - 将缓冲区内容绘制到屏幕
+// Refresh display - draw buffer content to screen
 void lcd_update(void);
 
-// 关闭LCD并释放资源
+// Close LCD and release resources
 void lcd_deinit(void);
 
-// 获取事件，返回0表示没有事件，非0表示有事件（可用于检测窗口关闭）
+// Get events, return 0 means no event, non-zero means event (can be used to detect window close)
 int lcd_get_event(void);
 
-// 获取当前按键状态
+// Get current key state
 lcd_key_state_t lcd_get_key_state(void);
 
-// LCD 模拟器相关函数 (仅用于模拟环境)
+// LCD simulator related functions (only for simulation environment)
 void lcd_simulator_process_events(void);
 void lcd_simulator_wait_for_events(int timeout_ms);
 bool lcd_simulator_button_pressed(int button_id);
