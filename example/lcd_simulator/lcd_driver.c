@@ -24,13 +24,13 @@ static lcd_key_state_t current_key_state = KEY_NONE;
 int lcd_init(void) {
     // 初始化SDL
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-        fprintf(stderr, "SDL初始化失败: %s\n", SDL_GetError());
+        fprintf(stderr, "SDL initialization failed: %s\n", SDL_GetError());
         return -1;
     }
 
     // 创建窗口
     window = SDL_CreateWindow(
-        "LCD模拟器",
+        "LCD Simulator",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
         LCD_WIDTH * PIXEL_SCALE,
@@ -39,7 +39,7 @@ int lcd_init(void) {
     );
 
     if (!window) {
-        fprintf(stderr, "窗口创建失败: %s\n", SDL_GetError());
+        fprintf(stderr, "Window creation failed: %s\n", SDL_GetError());
         SDL_Quit();
         return -1;
     }
@@ -47,7 +47,7 @@ int lcd_init(void) {
     // 创建渲染器
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     if (!renderer) {
-        fprintf(stderr, "渲染器创建失败: %s\n", SDL_GetError());
+        fprintf(stderr, "Renderer creation failed: %s\n", SDL_GetError());
         SDL_DestroyWindow(window);
         SDL_Quit();
         return -1;
@@ -63,7 +63,7 @@ int lcd_init(void) {
     );
 
     if (!texture) {
-        fprintf(stderr, "纹理创建失败: %s\n", SDL_GetError());
+        fprintf(stderr, "Texture creation failed: %s\n", SDL_GetError());
         SDL_DestroyRenderer(renderer);
         SDL_DestroyWindow(window);
         SDL_Quit();
@@ -73,7 +73,7 @@ int lcd_init(void) {
     // 创建像素缓冲区
     pixel_buffer = (uint32_t*)malloc(LCD_WIDTH * LCD_HEIGHT * sizeof(uint32_t));
     if (!pixel_buffer) {
-        fprintf(stderr, "内存分配失败\n");
+        fprintf(stderr, "Memory allocation failed\n");
         SDL_DestroyTexture(texture);
         SDL_DestroyRenderer(renderer);
         SDL_DestroyWindow(window);

@@ -20,28 +20,28 @@ static int key_init(tt_device_t *dev)
     key_device_t *key = (key_device_t *)dev;
     key->last_state = KEY_NO_PRESS;
     key->press_time = 0;
-    printf("按键设备初始化成功\n");
+    printf("Key device initialized successfully\n");
     return 0;
 }
 
-// 暂停按键设备
+// Suspend key device
 static int key_suspend(tt_device_t *dev)
 {
-    printf("按键设备已暂停\n");
+    printf("Key device suspended\n");
     return 0;
 }
 
-// 恢复按键设备
+// Resume key device
 static int key_resume(tt_device_t *dev)
 {
-    printf("按键设备已恢复\n");
+    printf("Key device resumed\n");
     return 0;
 }
 
-// 反初始化按键设备
+// Deinitialize key device
 static int key_deinit(tt_device_t *dev)
 {
-    printf("按键设备已释放\n");
+    printf("Key device released\n");
     return 0;
 }
 

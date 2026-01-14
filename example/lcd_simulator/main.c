@@ -155,10 +155,10 @@ void handle_button_selection(lcd_key_state_t key) {
         // 移动到上一个按钮
         current_selected_button = (current_selected_button == 0) ? 1 : 0;
         
-        // 选中新按钮
+        // Select new button
         buttons[current_selected_button].selected = true;
         
-        printf("选中按钮 %d\n", current_selected_button + 1);
+        printf("Selected button %d\n", current_selected_button + 1);
     }
     else if (key == KEY_DOWN_PRESSED) {
         // 取消当前按钮选中状态
@@ -167,10 +167,10 @@ void handle_button_selection(lcd_key_state_t key) {
         // 移动到下一个按钮
         current_selected_button = (current_selected_button == 0) ? 1 : 0;
         
-        // 选中新按钮
+        // Select new button
         buttons[current_selected_button].selected = true;
         
-        printf("选中按钮 %d\n", current_selected_button + 1);
+        printf("Selected button %d\n", current_selected_button + 1);
     }
     else if (key == KEY_ENTER_PRESSED) {
         // 按下回车键，触发按钮事件
@@ -215,7 +215,7 @@ void display_task(void* arg) {
 void key_task(void* arg) {
     TT_TASK_START;
     
-    printf("按键任务已启动，按 'u' 键向上选择, 'd' 键向下选择, 回车键确认\n");
+    printf("Key task started, press 'u' to select up, 'd' to select down, Enter to confirm\n");
     
     while (g_app_running) {
         // 获取按键状态
@@ -231,7 +231,7 @@ void key_task(void* arg) {
             g_app_running = false;
             
             // 发出结束任务的信号
-            printf("检测到退出事件，正在停止程序...\n");
+            printf("Exit event detected, stopping program...\n");
             
             // 退出任务调度循环
             tt_task_stop_schedule();
@@ -251,14 +251,14 @@ void button1_event_task(void* arg) {
     
     // 注册关注BUTTON1_EVENT事件
     TT_EVENT_REGISTER(BUTTON1_EVENT);
-    printf("按钮1事件任务已启动\n");
+    printf("Button1 event task started\n");
     
     while (g_app_running) {
         // 等待按钮1事件
         TT_TASK_WAIT_EVENT(BUTTON1_EVENT, TT_TASK_WAIT_FOREVER);
         
         // 处理按钮1事件
-        printf("====> 按钮1被按下！处理按钮1事件 <====\n");
+        printf("====> Button1 pressed! Handling button1 event <====\n");
         
         // 清除事件标志
         TT_TASK_CLEAR_EVENT(BUTTON1_EVENT);
@@ -273,14 +273,14 @@ void button2_event_task(void* arg) {
     
     // 注册关注BUTTON2_EVENT事件
     TT_EVENT_REGISTER(BUTTON2_EVENT);
-    printf("按钮2事件任务已启动\n");
+    printf("Button2 event task started\n");
     
     while (g_app_running) {
         // 等待按钮2事件
         TT_TASK_WAIT_EVENT(BUTTON2_EVENT, TT_TASK_WAIT_FOREVER);
         
         // 处理按钮2事件
-        printf("====> 按钮2被按下！处理按钮2事件 <====\n");
+        printf("====> Button2 pressed! Handling button2 event <====\n");
         
         // 清除事件标志
         TT_TASK_CLEAR_EVENT(BUTTON2_EVENT);
@@ -292,11 +292,11 @@ void button2_event_task(void* arg) {
 int main() {
     // 初始化LCD
     if (lcd_init() != 0) {
-        fprintf(stderr, "LCD初始化失败\n");
+        fprintf(stderr, "LCD initialization failed\n");
         return -1;
     }
     
-    printf("LCD模拟器已启动，屏幕尺寸: %dx%d\n", LCD_WIDTH, LCD_HEIGHT);
+    printf("LCD simulator started, screen size: %dx%d\n", LCD_WIDTH, LCD_HEIGHT);
     
     // 初始化TinyTask
     tt_task_init();
@@ -335,6 +335,6 @@ int main() {
     deinit_systick();
     lcd_deinit();
     
-    printf("LCD模拟器已关闭\n");
+    printf("LCD simulator closed\n");
     return 0;
 } 

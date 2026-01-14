@@ -36,10 +36,10 @@ int init_systick()
     int ret = pthread_create(&tick_thread, NULL, thread_function, NULL);
     
     if (ret != 0) {
-        printf("系统滴答线程创建失败。\n");
+        printf("thread create failed!\n");
         return 1;
     } else {
-        printf("系统滴答初始化成功。\n");
+        printf("systick init success!\n");
     }
 
     return 0;

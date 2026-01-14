@@ -6,3 +6,4 @@ Listings
 .vs
 test-cppcheck-build-dir
 .vscode
+.cache

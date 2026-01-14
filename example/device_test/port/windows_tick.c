@@ -42,10 +42,10 @@ int init_systick()
     );
 
     if (hThread == NULL) {
-        printf("系统滴答线程创建失败。\n");
+        printf("System tick thread creation failed.\n");
         return 1;
     } else {
-        printf("系统滴答初始化成功。\n");
+        printf("System tick init success.\n");
     }
 
     return 0;

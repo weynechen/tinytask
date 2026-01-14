@@ -22,10 +22,10 @@ static key_device_t key_dev;
 
 int main()
 {
-    printf("按键设备测试程序\n");
-    printf("请使用键盘上的's,l'键来模拟按钮\n");
-    printf("短按 's': 触发短按事件\n");
-    printf("长按 'l': 触发长按事件\n");
+    printf("Key device test program\n");
+    printf("Please use 's,l' keys on keyboard to simulate buttons\n");
+    printf("Short press 's': trigger short press event\n");
+    printf("Long press 'l': trigger long press event\n");
     
     // 初始化任务系统
     tt_task_init();
